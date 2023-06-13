@@ -1,50 +1,29 @@
-pipeline
- {
-     agent any
-
-     tools 
-     {
-        terraform "jenkin-terraform"
-     }
-    
-    stages
-      { 
-        stage (" check from GIT")
-        {
-        steps {
-            GIT branch: 'main', credentialsId: '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', url:  'https://github.com/mravindran89/firstec2.git'
-              }
-        }
-    stage ("terraform fmt")
-         { 
-            steps {
-            sh 'terraform init'
-                  }
-         }
-        
-    stage (" terraform validate")
-        {
-           steps {
-              sh 'terraform validate'
-         
-            } 
-        }
-
-
-    stage (" terraform plan")
-        {
-           steps {
-              sh 'terraform plan'
-         
-            } 
-        }
-
-    stage (" terraform apply")
-        {
-           steps {
+pipline {
+      agent any
+      tools {
+  terraform 'Terraform'
+}
+stages
+  {
+      stage('Checkout')
+      {
+          steps {
+              checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '09a75496-b3b8-4717-ac2c-21343c4fa797', url: 'https://github.com/mravindran89/ec2cre.git']])
+               }
+      }
+          
+      stage('Terraform Init')
+      {
+          steps {
+              sh 'terraform init'
+               }
+       }
+   
+      stage('Terraform Apply')
+         {
+          steps {
               sh 'terraform apply --auto-approve'
-         
-            } 
-        }
-      } 
+              }
+         } 
+   }
 }
