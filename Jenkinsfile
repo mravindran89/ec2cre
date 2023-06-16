@@ -1,4 +1,9 @@
 pipline {
+     envirmonment {
+        AWS_ACCESS_KEY_ID = credentails ('AWS_ACCESS_KEY_ID')
+	AWS_SECRET_ACCESS_KEY = credentails('AWS_SECRET_ACCESS_KEY')
+              }
+
       agent any
       tools {
   terraform 'Terraform'
